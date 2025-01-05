@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.28+commit.7893614a"
+		"version": "0.8.20+commit.a1b79de6"
 	},
 	"language": "Solidity",
 	"output": {
@@ -241,6 +241,25 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "UnallocatedTokensWithdrawn",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address[]",
@@ -474,6 +493,19 @@
 			},
 			{
 				"inputs": [],
+				"name": "getUnallocatedTokens",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "lastEmergencyWithdraw",
 				"outputs": [
 					{
@@ -633,6 +665,13 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "withdrawUnallocatedTokens",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -744,6 +783,9 @@
 				"getTotalClaimed(address)": {
 					"notice": "Retrieves the total tokens already claimed by a given address."
 				},
+				"getUnallocatedTokens()": {
+					"notice": "Retrieves the total tokens that are unallocated in the contract."
+				},
 				"setClaimApprovalFee(uint256)": {
 					"notice": "Allows the owner to set the claim approval fee."
 				},
@@ -755,6 +797,9 @@
 				},
 				"withdrawApprovalFees()": {
 					"notice": "Allows the owner to withdraw all collected approval fees."
+				},
+				"withdrawUnallocatedTokens()": {
+					"notice": "Allows the owner to withdraw only the unallocated tokens, respecting a cooldown."
 				}
 			},
 			"notice": "Contract to lock BEP20/ERC20 tokens received externally (via transfer),         manage a mapping of wallets authorized to claim specific balances,         and allow withdrawal of these tokens only once.",
@@ -765,7 +810,7 @@
 		"compilationTarget": {
 			"FvckClaim.sol": "FvckClaim"
 		},
-		"evmVersion": "cancun",
+		"evmVersion": "shanghai",
 		"libraries": {},
 		"metadata": {
 			"bytecodeHash": "ipfs"
@@ -866,11 +911,11 @@
 			]
 		},
 		"FvckClaim.sol": {
-			"keccak256": "0x18ed07468890aeb425f5aecebf8231d2c643f43e94b916c00ba55a5c5d2b67f9",
+			"keccak256": "0x3632127d3f1523b4dbfe8a4ecf00e6a18dbdea0133d32ec72415f0aa646a2b90",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://3cd61e6ec5a4987409829f1eb5c71f99b86a2a32728d25e025b793f211b827a1",
-				"dweb:/ipfs/QmSHSVFVgLaei2rsfkwx3LvS1mTDnBzRa6NMBrNcrQUPoH"
+				"bzz-raw://38d7973d84a8b92f380d4985af8d31bb1cffe66130e3cc8e6331e113ce109061",
+				"dweb:/ipfs/QmQubx4Rn45Ps9cmA5QaggiHGmmrzENyHCeAoTE96YVvGG"
 			]
 		}
 	},

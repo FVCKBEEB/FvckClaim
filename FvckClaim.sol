@@ -11,21 +11,21 @@ tools that allow anonymous reporting with irrefutable proof of fraud in the mark
 FVCK is a memecoin with real utility, bringing a revolution in security and transparency 
 to the crypto market. 
 
-🔗 Website: https://fvckbeeb.com
-🚀 Group: https://t.me/FVCKBEEB_US
-🦖 DinoBlock0x(DEV): https://t.me/DinoBlock0x 
+    🔗 Website: https://fvckbeeb.com
+    🚀 Group: https://t.me/FVCKBEEB_US
+    🦖 DinoBlock0x(DEV): https://t.me/DinoBlock0x 
 
-🫂 Based Team
-🔒 Safe & Transparent
-🔥 Deflationary Token 
-🏦 Token Meme Utility
-🌟 Engaged Community 
-🌍 Decentralized Autonomous Organization (DAO)
+    🫂 Based Team
+    🔒 Safe & Transparent
+    🔥 Deflationary Token 
+    🏦 Token Meme Utility
+    🌟 Engaged Community 
+    🌍 Decentralized Autonomous Organization (DAO)
 
 Part of our ecosystem:
-🧷 Space ID. Project wallet addresses identified. 
-⚖️ Snapshot. DAO management system. 
-🔑 Safe.Global. Multi-signature wallet.
+    🧷 Space ID. Project wallet addresses identified. 
+    ⚖️ Snapshot. DAO management system. 
+    🔑 Safe.Global. Multi-signature wallet.
 
 */
 // SPDX-License-Identifier: MIT
@@ -82,6 +82,7 @@ contract FvckClaim is Ownable, ReentrancyGuard {
     event ClaimMade(address indexed beneficiary, uint256 amount);
     event ClaimableBatchAdded(address[] accounts, uint256[] amounts);
     event EmergencyWithdraw(address indexed owner, uint256 amount);
+    event UnallocatedTokensWithdrawn(address indexed owner, uint256 amount);
     event ClaimEnabled(bool enabled);
     event TokensAllocated(address indexed account, uint256 amount, uint256 totalAllocated);
     event NewAddressRegistered(address indexed account);
@@ -238,6 +239,14 @@ contract FvckClaim is Ownable, ReentrancyGuard {
     }
 
     /**
+    * @notice Retrieves the total tokens that are unallocated in the contract.
+    */
+    function getUnallocatedTokens() public view returns (uint256) {
+        uint256 contractBalance = contractTokenBalance();
+        return contractBalance > totalAllocated ? contractBalance - totalAllocated : 0;
+    }
+
+    /**
      * @notice Allows the owner to withdraw all tokens in case of an emergency.
      */
     function emergencyWithdraw() external onlyOwner nonReentrant {
@@ -252,6 +261,23 @@ contract FvckClaim is Ownable, ReentrancyGuard {
         token.safeTransfer(owner(), contractBalance);
 
         emit EmergencyWithdraw(owner(), contractBalance);
+    }
+
+    /**
+    * @notice Allows the owner to withdraw only the unallocated tokens, respecting a cooldown.
+    */
+    function withdrawUnallocatedTokens() external onlyOwner nonReentrant {
+        uint256 unallocatedTokens = getUnallocatedTokens();
+        require(unallocatedTokens > 0, "No unallocated tokens to withdraw");
+        require(
+            block.timestamp >= lastEmergencyWithdraw + emergencyWithdrawCooldown,
+            "Cooldown in progress"
+        );
+
+        lastEmergencyWithdraw = block.timestamp;
+        token.safeTransfer(owner(), unallocatedTokens);
+
+        emit UnallocatedTokensWithdrawn(owner(), unallocatedTokens);
     }
 
     // ==================== Frontend View Functions ====================
