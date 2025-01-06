@@ -34,10 +34,11 @@
 	},
 	"sources": {
 		"FvckClaim-PrivateSale.sol": {
-			"keccak256": "0xabf0f5546c7d399582f67c20b94398da7d0c29c3712adce0722ddf265e005b95",
+			"keccak256": "0x7302c4e6c4c425afc80ccca23c68a5745f06b5875b1f2b7b992b7fcbbb7b19d4",
+			"license": "MIT",
 			"urls": [
-				"bzz-raw://49f7703c4c16b8e14e88155707f0e7cba865b38eb462a131b759ece87cff279b",
-				"dweb:/ipfs/QmQeCon9493TDmSKP1sV7fwK5vB7CrkkHww9aybp41UWkd"
+				"bzz-raw://14d5f76efa42c371799029e811e3c6bf264d0f4887662e63167c81921468c19c",
+				"dweb:/ipfs/QmViSuzzj5treqNKCFncVw27ug1vwNzJ1aMj9rXZK83ngf"
 			]
 		}
 	},
